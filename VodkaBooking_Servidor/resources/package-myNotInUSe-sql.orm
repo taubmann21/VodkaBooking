@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE orm SYSTEM "file:/javax/jdo/orm.dtd">
+<orm>
+    <package name="es.deusto.ingenieria.sd.datanucleus.jdo.data">    
+        <class name="Usuario">
+            <field name="username">
+                <column length="20" jdbc-type="VARCHAR"/>
+            </field>
+            <field name="aeropuertoXdefecto">
+                <column length="40" jdbc-type="VARCHAR"/>
+            </field>
+            <field name="reservas" default-fetch-group="true">
+            	<join/>
+        	</field>
+        </class>
+
+        <class name="Reserva">
+            <inheritance strategy="new-table"/>
+            <field name="codReserva">
+                <column length="9" jdbc-type="VARCHAR"/>
+            </field>
+            <field name="nombre">
+                <column length="40" jdbc-type="VARCHAR"/>
+            </field>
+            
+         </class>
+		        	 
+        <class name="Vuelo">
+            <field name="fecha">
+                <column length="128" jdbc-type="DATE"/>
+            </field>
+			<field name="origen">
+                <column length="20" jdbc-type="VARCHAR"/>
+            </field>
+            <field name="destino"> 
+             <column length="20" jdbc-type="VARCHAR"/>              
+            </field>
+            <field name="plazasLibres"> 
+             <column length="255" jdbc-type="INTEGER"/>              
+            </field>
+            <field name="reservas" default-fetch-group="true">
+            	<join/>
+        	</field>
+            
+		</class>
+		
+		<class name="Shelf">
+            <field name="identifier">
+            </field>
+            <field name="copies" default-fetch-group="true">
+            	<collection element-type="es.deusto.ingenieria.sd.datanucleus.jdo.data.Copy"/>
+            	<join/>
+        	</field>
+         </class>
+		 
+    </package>
+</orm>
