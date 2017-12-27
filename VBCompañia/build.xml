@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="help" name="IberiaServer">    
+	<property environment="env"/>
+	<property name="source.dir" location="src"/>
+   	<property name="build.dir" location="bin"/>
+	<property name="dist.dir" location="dist"/>
+	<property name="classpath" location="bin"/>
+	<property name="export.file" value="Compañia1.jar"/>
+	<property name="server.port" value="1099"/> 
+	<property name="server.IP" value="127.0.0.1"/> 
+	<property name="server.Name" value="Iberia"/>
+	<property name="lib.dir" location="lib"/>
+	<property name="policy.file" location="security/java.policy"/>
+	
+	
+	<path id="classpath">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement location="${build.dir}"/>    	
+    </path>
+
+	<target name="help">
+		<echo>Usage: ant [build | export | server ]</echo>
+	</target>
+	
+	<target name="build" description="Builds the project">
+		<delete dir="${build.dir}"/>
+		<mkdir dir="${build.dir}"/>
+		<javac srcdir="${source.dir}" destdir="${build.dir}" classpath="${classpath}" deprecation="true" fork="true" includeantruntime="no"/>
+    </target>
+	
+	<target name="export" depends="build" description="Export the project into a .jar file">
+		<delete dir="${dist.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+		<jar destfile="${dist.dir}/${export.file}" basedir="${build.dir}" includes="**/I*.class, **/*.class"/>
+	</target>	
+    
+	<target name="IberiaServer"  description="Runs Server program">
+		<java classname="Compania.CompaniaA" classpathref="classpath" fork="true">
+        	<jvmarg value="-Djava.rmi.server.codebase=file:${build.dir}/"/>
+			<jvmarg value="-Djava.security.policy=${policy.file}"/>			
+        	<arg value="${server.IP}"/> 
+	 		<arg value="${server.port}"/> 
+			<arg value="${server.Name}"/> 
+        </java>
+    </target>
+	
+	
+</project>
